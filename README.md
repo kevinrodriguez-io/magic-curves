@@ -1,5 +1,10 @@
 # Magic Curves
 
+![Crates.io](https://img.shields.io/crates/v/magic-curves.svg)
+[![Docs.rs](https://docs.rs/magic-curves/badge.svg)](https://docs.rs/magic-curves)
+![License](https://img.shields.io/crates/l/magic-curves.svg)
+
+
 **Magic Curves** is a Rust library that provides a suite of tools for working with various bonding curves. This includes implementations of linear, quadratic, exponential, logarithmic, and sigmoid bonding curves.
 
 ## Description
