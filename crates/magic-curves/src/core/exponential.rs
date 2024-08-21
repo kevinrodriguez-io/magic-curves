@@ -13,13 +13,20 @@ impl ExponentialBondingCurve {
 
     /// Calculates the price based on the supply.
     ///
+    /// This function is lossy because it deals with floating point numbers.
+    /// In theory, the price should be calculated using fixed point arithmetic,
+    /// however, using a Taylor series expansion, we can calculate the price
+    /// without using floating point numbers, but it is more complex, and
+    /// precision is lost due to type conversions and large exponentiation.
+    ///
     /// # Formula:
     ///
-    /// `f(x) = a*euler^(b*x)`
+    /// `f(x) = a*e^(b*x)`
     ///
     /// where:
     ///
-    /// - x is the supply
+    /// - e is euler's number.
+    /// - x is the supply.
     /// - a is a constant that scales the price, often called the base price.
     /// - b is the growth rate of the curve, which determines how quickly the price increases as the supply increases.
     pub fn calculate_price_lossy(&self, supply: u64) -> f64 {

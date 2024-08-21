@@ -1,5 +1,3 @@
-use std::f64::consts::E;
-
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct SigmoidBondingCurve {
     pub max_price: f64,
@@ -45,7 +43,7 @@ mod test {
     #[test]
     pub fn test_sigmoid_price_calculus() {
         let curve = crate::SigmoidBondingCurve::new(100.0, 0.01, 500);
-        let price = curve.calculate_price_lossy(100);
+        let price = curve.calculate_price_lossy(480);
         assert_eq!(price, 45.016600268752214);
     }
 
@@ -56,7 +54,7 @@ mod test {
             fixed_point_to_float(1, 2),
             500,
         );
-        let price = curve.calculate_price_lossy(100);
+        let price = curve.calculate_price_lossy(480);
         assert_eq!(float_to_fixed_point(price, 9), 4_501_660_026);
     }
 }

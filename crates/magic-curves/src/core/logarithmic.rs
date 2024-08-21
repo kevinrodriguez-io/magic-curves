@@ -41,8 +41,8 @@ mod test {
 
     #[test]
     pub fn test_logarithmic_price_calculus_fixed_point() {
-        let base = fixed_point_to_float(1, 2);
-        let growth = fixed_point_to_float(2, 2);
+        let base = fixed_point_to_float(2, 2);
+        let growth = fixed_point_to_float(1, 2);
         let curve = crate::LogarithmicBondingCurve::new(base, growth);
         let price = curve.calculate_price_lossy(100);
         assert_eq!(float_to_fixed_point(price, 9), 0_066_051_701);
