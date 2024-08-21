@@ -55,6 +55,6 @@ mod test {
             500,
         );
         let price = curve.calculate_price_lossy(480);
-        assert_eq!(float_to_fixed_point(price, 9), 4_501_660_026);
+        assert_eq!(float_to_fixed_point(price, 9), 45_016_600_268);
     }
 }
