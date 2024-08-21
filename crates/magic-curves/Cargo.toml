@@ -5,13 +5,12 @@ edition = "2021"
 authors = ["Kevin Rodriguez <_@kevinrodriguez.io>"]
 description = "A Rust library to deal with bonding curves."
 license = "MIT"
-repository = "https://github.com/kevinrodriguez-io/bonding-curves"
-homepage = "https://github.com/kevinrodriguez-io/bonding-curves"
-documentation = "https://docs.rs/kevinrodriguez-io-bonding-curves"
+repository = "https://github.com/kevinrodriguez-io/magic-curves"
+homepage = "https://github.com/kevinrodriguez-io/magic-curves"
+documentation = "https://docs.rs/magic-curves"
 readme = "README.md"
 keywords = ["blockchain", "financial", "solana", "defi", "finance"]
 categories = ["finance", "cryptography"]
 
 [dependencies]
-financial-ops = "^0.1.0"
-num-traits = "0.2.19"
+num-traits = "^0.2.19"

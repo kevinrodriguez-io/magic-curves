@@ -14,12 +14,14 @@ Note: Version 0 of Semantic Versioning is handled differently from version 1 and
 
 ### Breaking
 
-## [0.1.0] - 2024-08-19
+## [0.1.0] - 2024-08-21
 
 ### Features
 
 - Initial release
-- Added basic operations like: addition, subtraction, multiplication, division, and remainder.
+- Adds Linear, Quadratic, Exponential, Logarithmic, and Sigmoid bonding curves.
+- Adds fixed_point_to_float and float_to_fixed_point conversion functions.
+- Adds tests for all bonding curves.
 
 ### Fixes
 
