@@ -18,7 +18,7 @@ impl SigmoidBondingCurve {
     ///
     /// # Formula:
     ///
-    /// ```no_run
+    /// ```ignore
     /// f(x) =  L
     ///       ------
     ///    1+e^(-k[x-x0])
