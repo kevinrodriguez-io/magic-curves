@@ -13,4 +13,3 @@ keywords = ["blockchain", "financial", "solana", "defi", "finance"]
 categories = ["finance", "cryptography"]
 
 [dependencies]
-num-traits = "^0.2.19"

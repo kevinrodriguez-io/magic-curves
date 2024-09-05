@@ -2,6 +2,14 @@ use std::f64::consts::E;
 
 use super::{BondingCurve, OperationSide};
 
+/// Represents an exponential bonding curve.
+///
+/// This struct defines an exponential bonding curve with a base price and a growth rate.
+///
+/// # Fields
+///
+/// * `base`: The base price, which is the initial price for the first token.
+/// * `growth`: The growth rate that determines how quickly the price increases.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct ExponentialBondingCurve {
     pub base: f64,
@@ -9,15 +17,67 @@ pub struct ExponentialBondingCurve {
 }
 
 impl ExponentialBondingCurve {
+    /// Creates a new `ExponentialBondingCurve` with the specified base price and growth rate.
+    ///
+    /// # Arguments
+    ///
+    /// * `base` - The base price, which is the initial price for the first token.
+    /// * `growth` - The growth rate that determines how quickly the price increases.
+    ///
+    /// # Returns
+    ///
+    /// A new instance of `ExponentialBondingCurve`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use magic_curves::ExponentialBondingCurve;
+    ///
+    /// let curve = ExponentialBondingCurve::new(0.01, 0.02);
+    /// ```
     pub fn new(base: f64, growth: f64) -> Self {
         Self { base, growth }
     }
 }
 
 impl BondingCurve<f64> for ExponentialBondingCurve {
+    /// Calculates the price based on the supply.
+    ///
+    /// # Formula
+    ///
+    /// ```ignore
+    /// f(x) = base * e^(growth * x)
+    /// ```
+    ///
+    /// # Arguments
+    ///
+    /// * `supply` - The current supply of tokens.
+    ///
+    /// # Returns
+    ///
+    /// The price of the token based on the supply.
     fn calculate_price(&self, supply: u64) -> f64 {
         self.base * E.powf(self.growth * supply as f64)
     }
+
+    /// Calculates the price for a given amount of tokens.
+    ///
+    /// # Formula
+    ///
+    /// The integral of the exponential function is used:
+    /// ```ignore
+    /// F(x) = (base / growth) * (e^(growth * x) - e^(growth * start))
+    /// ```
+    ///
+    /// # Arguments
+    ///
+    /// * `starting_supply` - The current supply of tokens.
+    /// * `amount` - The amount of tokens to calculate the price for.
+    /// * `side` - The side of the operation (add or remove).
+    ///
+    /// # Returns
+    ///
+    /// The total price for the given amount of tokens.
     fn calculate_price_many(&self, starting_supply: u64, amount: u64, side: OperationSide) -> f64 {
         let start = starting_supply as f64;
         let end = match side {

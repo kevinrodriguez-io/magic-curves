@@ -1,5 +1,13 @@
 use super::{BondingCurve, BondingCurveError, BondingCurveWithCheckedOperations, OperationSide};
 
+/// Represents a linear bonding curve.
+///
+/// This struct defines a linear bonding curve with a linear coefficient and a base price.
+///
+/// # Fields
+///
+/// * `linear`: The linear coefficient that determines the rate of price increase.
+/// * `base`: The base price, which is the minimum price for the first token.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct LinearBondingCurve {
     pub linear: u64,
@@ -7,15 +15,71 @@ pub struct LinearBondingCurve {
 }
 
 impl LinearBondingCurve {
+    /// Creates a new `LinearBondingCurve` with the specified linear coefficient and base price.
+    ///
+    /// # Arguments
+    ///
+    /// * `linear` - The linear coefficient that determines the rate of price increase.
+    /// * `base` - The base price, which is the minimum price for the first token.
+    ///
+    /// # Returns
+    ///
+    /// A new instance of `LinearBondingCurve`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use magic_curves::LinearBondingCurve;
+    ///
+    /// let curve = LinearBondingCurve::new(100, 1000);
+    /// ```
     pub fn new(linear: u64, base: u64) -> Self {
         Self { linear, base }
     }
 }
 
 impl BondingCurve<u64> for LinearBondingCurve {
+    /// Calculates the price based on the supply.
+    ///
+    /// # Formula
+    ///
+    /// ```ignore
+    /// f(x) = linear * x + base
+    /// ```
+    ///
+    /// # Arguments
+    ///
+    /// * `supply` - The current supply of tokens.
+    ///
+    /// # Returns
+    ///
+    /// The price of the token based on the supply.
     fn calculate_price(&self, supply: u64) -> u64 {
         self.linear * supply + self.base
     }
+
+    /// Calculates the price for a given amount of tokens.
+    ///
+    /// # Formula
+    ///
+    /// ```ignore
+    /// f(x) = (amount * (a1 + an)) / 2
+    /// ```
+    ///
+    /// where:
+    ///
+    /// - a1 = linear * starting_supply + base
+    /// - an = linear * (starting_supply + amount - 1) + base
+    ///
+    /// # Arguments
+    ///
+    /// * `starting_supply` - The current supply of tokens.
+    /// * `amount` - The amount of tokens to calculate the price for.
+    /// * `side` - The side of the operation (add or remove).
+    ///
+    /// # Returns
+    ///
+    /// The total price for the given amount of tokens.
     fn calculate_price_many(&self, starting_supply: u64, amount: u64, side: OperationSide) -> u64 {
         let a1 = self.linear * starting_supply + self.base;
         let an = match side {
@@ -27,6 +91,15 @@ impl BondingCurve<u64> for LinearBondingCurve {
 }
 
 impl BondingCurveWithCheckedOperations<u64> for LinearBondingCurve {
+    /// Calculates the price based on the supply.
+    ///
+    /// # Arguments
+    ///
+    /// * `supply` - The current supply of tokens.
+    ///
+    /// # Returns
+    ///
+    /// The price of the token based on the supply. If the operation would cause an overflow, it returns an error.
     fn calculate_price_checked(&self, supply: u64) -> Result<u64, BondingCurveError> {
         let result = self
             .linear
@@ -36,6 +109,17 @@ impl BondingCurveWithCheckedOperations<u64> for LinearBondingCurve {
         result.ok_or(BondingCurveError::Overflow)
     }
 
+    /// Calculates the price for a given amount of tokens.
+    ///
+    /// # Arguments
+    ///
+    /// * `starting_supply` - The current supply of tokens.
+    /// * `amount` - The amount of tokens to calculate the price for.
+    /// * `side` - The side of the operation (add or remove).
+    ///
+    /// # Returns
+    ///
+    /// The total price for the given amount of tokens. If the operation would cause an overflow, it returns an error.
     fn calculate_price_many_checked(
         &self,
         starting_supply: u64,

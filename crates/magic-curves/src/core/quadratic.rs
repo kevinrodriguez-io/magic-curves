@@ -1,5 +1,14 @@
 use super::{BondingCurve, BondingCurveError, BondingCurveWithCheckedOperations, OperationSide};
 
+/// Represents a quadratic bonding curve.
+///
+/// This struct defines a quadratic bonding curve with quadratic, linear, and base coefficients.
+///
+/// # Fields
+///
+/// * `quadratic`: The quadratic coefficient that determines the rate of price increase.
+/// * `linear`: The linear coefficient that affects the price linearly.
+/// * `base`: The base price, which is the minimum price for the first token.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct QuadraticBondingCurve {
     pub quadratic: u64,
@@ -8,6 +17,25 @@ pub struct QuadraticBondingCurve {
 }
 
 impl QuadraticBondingCurve {
+    /// Creates a new `QuadraticBondingCurve` with the specified coefficients.
+    ///
+    /// # Arguments
+    ///
+    /// * `quadratic` - The quadratic coefficient that determines the rate of price increase.
+    /// * `linear` - The linear coefficient that affects the price linearly.
+    /// * `base` - The base price, which is the minimum price for the first token.
+    ///
+    /// # Returns
+    ///
+    /// A new instance of `QuadraticBondingCurve`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use magic_curves::QuadraticBondingCurve;
+    ///
+    /// let curve = QuadraticBondingCurve::new(10, 100, 1000);
+    /// ```
     pub fn new(quadratic: u64, linear: u64, base: u64) -> Self {
         Self {
             quadratic,
@@ -18,10 +46,40 @@ impl QuadraticBondingCurve {
 }
 
 impl BondingCurve<u64> for QuadraticBondingCurve {
+    /// Calculates the price based on the supply.
+    ///
+    /// # Formula
+    ///
+    /// ```ignore
+    /// f(x) = quadratic * x^2 + linear * x + base
+    /// ```
+    ///
+    /// # Arguments
+    ///
+    /// * `supply` - The current supply of tokens.
+    ///
+    /// # Returns
+    ///
+    /// The price of the token based on the supply.
     fn calculate_price(&self, supply: u64) -> u64 {
         self.quadratic * supply * supply + self.linear * supply + self.base
     }
 
+    /// Calculates the price for a given amount of tokens.
+    ///
+    /// # Formula
+    ///
+    /// The formula uses the sum of quadratic, linear, and constant terms based on the operation side.
+    ///
+    /// # Arguments
+    ///
+    /// * `starting_supply` - The current supply of tokens.
+    /// * `amount` - The amount of tokens to calculate the price for.
+    /// * `side` - The side of the operation (add or remove).
+    ///
+    /// # Returns
+    ///
+    /// The total price for the given amount of tokens.
     fn calculate_price_many(&self, starting_supply: u64, amount: u64, side: OperationSide) -> u64 {
         let n = amount;
         let a = starting_supply;
@@ -59,6 +117,16 @@ impl BondingCurve<u64> for QuadraticBondingCurve {
 }
 
 impl BondingCurveWithCheckedOperations<u64> for QuadraticBondingCurve {
+    /// Calculates the price based on the supply with overflow checking.
+    ///
+    /// # Arguments
+    ///
+    /// * `supply` - The current supply of tokens.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing the price of the token based on the supply,
+    /// or a `BondingCurveError` if the calculation overflows.
     fn calculate_price_checked(&self, supply: u64) -> Result<u64, BondingCurveError> {
         let result = self
             .quadratic
@@ -69,6 +137,18 @@ impl BondingCurveWithCheckedOperations<u64> for QuadraticBondingCurve {
         result.ok_or(BondingCurveError::Overflow)
     }
 
+    /// Calculates the price for a given amount of tokens with overflow checking.
+    ///
+    /// # Arguments
+    ///
+    /// * `starting_supply` - The current supply of tokens.
+    /// * `amount` - The amount of tokens to calculate the price for.
+    /// * `side` - The side of the operation (add or remove).
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing the total price for the given amount of tokens,
+    /// or a `BondingCurveError` if the calculation overflows.
     fn calculate_price_many_checked(
         &self,
         starting_supply: u64,

@@ -1,5 +1,14 @@
 use super::{BondingCurve, OperationSide};
 
+/// Represents a sigmoid bonding curve.
+///
+/// This struct defines a sigmoid bonding curve with a maximum price, growth rate, and mid-supply point.
+///
+/// # Fields
+///
+/// * `max_price`: The maximum price that the curve approaches asymptotically.
+/// * `growth`: The growth rate that determines how quickly the price increases.
+/// * `mid_supply`: The supply at which the price is half of the maximum price.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct SigmoidBondingCurve {
     pub max_price: f64,
@@ -8,6 +17,25 @@ pub struct SigmoidBondingCurve {
 }
 
 impl SigmoidBondingCurve {
+    /// Creates a new `SigmoidBondingCurve` with the specified maximum price, growth rate, and mid-supply point.
+    ///
+    /// # Arguments
+    ///
+    /// * `max_price` - The maximum price that the curve approaches asymptotically.
+    /// * `growth` - The growth rate that determines how quickly the price increases.
+    /// * `mid_supply` - The supply at which the price is half of the maximum price.
+    ///
+    /// # Returns
+    ///
+    /// A new instance of `SigmoidBondingCurve`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use magic_curves::SigmoidBondingCurve;
+    ///
+    /// let curve = SigmoidBondingCurve::new(100.0, 0.01, 500);
+    /// ```
     pub fn new(max_price: f64, growth: f64, mid_supply: u64) -> Self {
         Self {
             max_price,
@@ -20,25 +48,42 @@ impl SigmoidBondingCurve {
 impl BondingCurve<f64> for SigmoidBondingCurve {
     /// Calculates the price based on the supply.
     ///
-    /// # Formula:
+    /// # Formula
     ///
     /// ```ignore
-    /// f(x) =  L
-    ///       ------
-    ///    1+e^(-k[x-x0])
+    /// f(x) = max_price / (1 + e^(-growth * (x - mid_supply)))
     /// ```
     ///
-    /// where:
+    /// # Arguments
     ///
-    /// - x is the supply.
-    /// - L is the maximum price (upper asymptote of the curve).
-    /// - k is the growth factor.
-    /// - x0 is the inflection point. (Can be: Max supply / 2)
+    /// * `supply` - The current supply of tokens.
+    ///
+    /// # Returns
+    ///
+    /// The price of the token based on the supply.
     fn calculate_price(&self, supply: u64) -> f64 {
         let s = supply as f64;
         self.max_price / (1.0 + (-self.growth * (s - self.mid_supply as f64)).exp())
     }
 
+    /// Calculates the price for a given amount of tokens.
+    ///
+    /// # Formula
+    ///
+    /// The integral of the sigmoid function is used:
+    /// ```ignore
+    /// F(x) = (max_price / growth) * ln(1 + e^(growth * (x - mid_supply)))
+    /// ```
+    ///
+    /// # Arguments
+    ///
+    /// * `starting_supply` - The current supply of tokens.
+    /// * `amount` - The amount of tokens to calculate the price for.
+    /// * `side` - The side of the operation (add or remove).
+    ///
+    /// # Returns
+    ///
+    /// The total price for the given amount of tokens.
     fn calculate_price_many(&self, starting_supply: u64, amount: u64, side: OperationSide) -> f64 {
         let s = starting_supply as f64;
         let n = amount as f64;

@@ -14,6 +14,18 @@ Note: Version 0 of Semantic Versioning is handled differently from version 1 and
 
 ### Breaking
 
+## [1.0.0] - 2024-09-05
+
+### Features
+
+- Added `calculate_price_many` and `calculate_price_many_checked` to all bonding curves.
+
+### Fixes
+
+### Breaking
+
+- Removed "lossy" suffix on `f64` curves: Exponential, Logarithmic, and Sigmoid.
+
 ## [0.1.0] - 2024-08-21
 
 ### Features
