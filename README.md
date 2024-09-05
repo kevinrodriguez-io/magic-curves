@@ -1,7 +1,8 @@
 # 🪄 Magic Curves
 
-[![Crates.io](https://img.shields.io/crates/v/magic-curves.svg)](https://crates.io/crates/magic-curves)
 [![Docs.rs](https://docs.rs/magic-curves/badge.svg)](https://docs.rs/magic-curves)
+[![Workflow Status](https://github.com/kevinrodriguez-io/magic-curves/workflows/Rust/badge.svg)](https://github.com/kevinrodriguez-io/magic-curves/actions)
+[![Crates.io](https://img.shields.io/crates/v/magic-curves.svg)](https://crates.io/crates/magic-curves)
 [![License](https://img.shields.io/crates/l/magic-curves.svg)](LICENSE.md)
 
 **Magic Curves** is your go-to Rust library for working with a bonding curves. Whether you're building decentralized finance applications, tokenomics models, or scientific simulations, Magic Curves has got you covered!
