@@ -1,6 +1,4 @@
 /target
-.ds_store
-/target
 **/*.rs.bk
 Cargo.lock
 bin/

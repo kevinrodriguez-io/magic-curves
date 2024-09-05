@@ -13,3 +13,7 @@ keywords = ["blockchain", "financial", "solana", "defi", "finance"]
 categories = ["finance", "cryptography"]
 
 [dependencies]
+
+[profile.release]
+opt-level = "s"
+lto = true
