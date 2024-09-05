@@ -1,105 +1,48 @@
-# Magic Curves
+# 🪄 Magic Curves
 
-![Crates.io](https://img.shields.io/crates/v/magic-curves.svg)
+[![Crates.io](https://img.shields.io/crates/v/magic-curves.svg)](https://crates.io/crates/magic-curves)
 [![Docs.rs](https://docs.rs/magic-curves/badge.svg)](https://docs.rs/magic-curves)
-![License](https://img.shields.io/crates/l/magic-curves.svg)
+[![License](https://img.shields.io/crates/l/magic-curves.svg)](LICENSE.md)
 
+**Magic Curves** is your go-to Rust library for working with a bonding curves. Whether you're building decentralized finance applications, tokenomics models, or scientific simulations, Magic Curves has got you covered!
 
-**Magic Curves** is a Rust library that provides a suite of tools for working with various bonding curves. This includes implementations of linear, quadratic, exponential, logarithmic, and sigmoid bonding curves.
+## 🌟 Features
 
-## Description
+- 📊 Multiple curve types: Linear, Quadratic, Exponential, Logarithmic, and Sigmoid
+- 🔢 Support for both floating-point and fixed-point arithmetic
+- 🚀 High-performance calculations
+- 🧮 Precision-focused implementations
+- 🛠️ Easy-to-use API
 
-Magic Curves is designed for applications requiring precise curve calculations, useful in finance, economics, and various scientific fields. The library supports both floating-point and fixed-point arithmetic for high precision in critical applications.
+## 🚀 Quick Start
 
-## Installation
-
-Add this to your `Cargo.toml`:
+Add Magic Curves to your project:
 
 ```toml
 [dependencies]
-magic-curves = "0.1.0"
+magic-curves = "1.0.0"
 ```
 
-Then, build your project with:
+or using `cargo`:
 
 ```sh
-cargo build
+$ cargo add magic-curves
 ```
 
-## Usage
+## 📚 Documentation
 
-Here are examples of how to use the different bonding curves provided by the `magic_curves` library:
+For detailed information on how to use Magic Curves, please refer to the [official documentation](https://docs.rs/magic-curves).
 
-### Linear Bonding Curve
+## 🤝 Contributing
 
-```rust
-use magic_curves::core::linear::LinearBondingCurve;
+We welcome contributions! Please read our [contributing guidelines](CONTRIBUTING.md) for more details.
 
-fn main() {
-    let linear = 500_000_000u128;
-    let base = 1_000_000_000u128;
-    let curve = LinearBondingCurve::new(linear, base);
+## 📜 License
 
-    let price = curve.calculate_price(0);
-    println!("Price at supply 0: {}", price);  // Outputs base price
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
 
-    let price = curve.calculate_price(1);
-    println!("Price at supply 1: {}", price);  // Outputs increased price
-}
-```
+If you find Magic Curves useful, please consider giving us a star on GitHub. It helps us know that you appreciate our work and encourages further development!
 
-### Exponential Bonding Curve
+---
 
-```rust
-use magic_curves::ExponentialBondingCurve;
-
-fn main() {
-    let curve = ExponentialBondingCurve::new(0.01, 0.02);
-    let price = curve.calculate_price_lossy(100);
-    println!("Price at supply 100: {}", price);
-}
-```
-
-### Logarithmic Bonding Curve
-
-```rust
-use magic_curves::LogarithmicBondingCurve;
-
-fn main() {
-    let curve = LogarithmicBondingCurve::new(0.01, 0.02);
-    let price = curve.calculate_price_lossy(100);
-    println!("Price at supply 100: {}", price);
-}
-```
-
-### Quadratic Bonding Curve
-
-```rust
-use magic_curves::QuadraticBondingCurve;
-
-fn main() {
-    let curve = QuadraticBondingCurve::new(10_000_000, 500_000_000, 1_000_000_000);
-    let price = curve.calculate_price(1);
-    println!("Price at supply 1: {}", price);  // Example price calculation
-}
-```
-
-### Sigmoid Bonding Curve
-
-```rust
-use magic_curves::SigmoidBondingCurve;
-
-fn main() {
-    let curve = SigmoidBondingCurve::new(100.0, 0.01, 500);
-    let price = curve.calculate_price_lossy(480);
-    println!("Price at supply 480: {}", price);
-}
-```
-
-## Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+Built with ❤️ by Kevin Rodríguez.

@@ -1,6 +1,6 @@
 [package]
 name = "magic-curves"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 authors = ["Kevin Rodriguez <_@kevinrodriguez.io>"]
 description = "A Rust library to deal with bonding curves."
